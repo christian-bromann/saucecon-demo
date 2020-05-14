@@ -1,0 +1,21 @@
+name: My Test Pipeline
+on: [push]
+
+env:
+  SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
+  SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+
+jobs:
+  puppeteer:
+    runs-on: ubuntu-latest
+    container:
+      image: saucelabs/sauce-puppeteer:3.0.4-saucectl0.4.2
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+
+      - name: Run Sauce Pipeline Test
+        run: saucectl run
+        env:
+          CI_COMMIT_SHORT_SHA: ${{ github.sha }}
